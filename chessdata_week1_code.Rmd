@@ -1,0 +1,168 @@
+---
+title: "internship"
+author: "vineetha"
+date: "September 6, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+
+#Description of data
+#The data is about the game CHESS(King-Rook vs. King)
+#Number of Instances: 28056
+#Number of Attributes: There are six attribute variables and one class variable.
+#Attribute Information:
+#1. White King file (column)
+#2. White King rank (row)
+#3. White Rook file
+#4. White Rook rank
+#5. Black King file
+#6. Black King rank
+#7.optimal depth-of-win for White in 0 to 16 moves, otherwise drawn{draw, zero, one, two, ..., sixteen}.
+
+
+#WEEK 1:agenda
+#Data Characterization
+
+
+#To clean enviroment variables
+```{r}
+rm(list = ls())
+```
+
+#setting working directory
+```{r}
+setwd("E:/internship")
+```
+
+#reading the data
+```{r}
+chess=read.table("krkopt.data" ,sep = ",")
+```
+
+#understanding the data
+```{r}
+str(chess)
+```
+```{r}
+summary(chess)
+```
+```{r}
+head(chess)
+tail(chess)
+```
+
+#data dimension
+```{r}
+dim(chess)
+```
+
+
+#chaning the columns names
+```{r}
+colnames(chess)<- c("White King file" ,"White King rank"," White Rook file","White Rook rank","Black King file "," Black King rank ","optimal depth-of-win")
+```
+
+#cheking for missing values
+```{r}
+colSums(is.na(chess))
+```
+
+#Descriptive Statistics
+```{r}
+library(pastecs)
+stat.desc(chess)
+```
+
+
+#cheking for unqiue values
+```{r}
+length(unique(chess$`White King file`))
+#4
+length(unique(chess$`White King rank`))
+#4
+length(unique(chess$`White Rook rank`))
+#8
+length(unique(chess$`Black King file `))
+#8
+length(unique(chess$` White Rook file`))
+#8
+length(unique(chess$` Black King rank `))
+#8
+length(unique(chess$`optimal depth-of-win`))
+#18
+```
+
+#converting all attributes into numerical
+```{r}
+chess$`White King rank`=as.numeric(as.numeric(chess$`White King rank`))
+chess$`White Rook rank`=as.numeric(as.numeric(chess$`White Rook rank`))
+chess$` Black King rank `=as.numeric(as.numeric(chess$` Black King rank `))
+chess$`White King file`=as.numeric(as.numeric(chess$`White King file`))
+chess$`Black King file `=as.numeric(as.numeric(chess$`Black King file `))
+chess$` White Rook file`=as.numeric(as.numeric(chess$` White Rook file`))
+chess$`optimal depth-of-win`=as.numeric(as.numeric(chess$`optimal depth-of-win`))
+```
+
+
+
+
+
+#correlation test
+```{r}
+cor.test(x=chess$`White King file`,y=chess$`optimal depth-of-win`)
+#correlation between white king flie and optimal depth of win(target varibale) is positive.i,e cor value=0.02827704 
+```
+
+
+
+```{r}
+cor.test(x=chess$`White King rank`,y=chess$`optimal depth-of-win`)
+#correlation between white king rank and traget varible is positive.
+#i.e, cor value=0.02578791
+```
+
+
+```{r}
+cor.test(x=chess$`White Rook rank`,y=chess$`optimal depth-of-win`)
+#correlation between white Rook rank and target varible is negative
+#i.e, cor value=-0.02199489
+```
+
+
+```{r}
+cor.test(x=chess$`Black King file `,y=chess$`optimal depth-of-win`)
+#correlation between Black King file and target varible is negative
+#i.e, cor value=-0.02379519
+```
+
+
+```{r}
+cor.test(x=chess$` White Rook file`,y=chess$`optimal depth-of-win`)
+#correlation between White Rook file and target varibale is negative
+#i.e,cor value=-0.02149721
+```
+
+```{r}
+cor.test(x=chess$` Black King rank `,y=chess$`optimal depth-of-win`)
+#correlation between Black king rank and target varible is positive
+#i.e, cor value=0.09460703 
+```
+
+
+
+
+
+
+
+
+
