@@ -1,0 +1,177 @@
+---
+title: "batch29_intership_human resource analystics"
+author: "vineetha"
+date: "September 12, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+#Why are our best and most experienced employees leaving prematurely?Try to predict which valuable employees will leave next. Fields in the dataset include:
+
+#Satisfaction Level
+#Last evaluation
+#Number of projects
+#Average monthly hours
+#Time spent at the company
+#Whether they have had a work accident
+#Whether they have had a promotion in the last 5 years
+#Departments (column sales)
+#Salary
+#Whether the employee has left
+
+
+
+#To clean enviroment variables
+```{r}
+rm(list=ls())
+```
+
+#setting the working directory
+```{r}
+setwd("E:/batch29_internship")
+```
+
+#reading the dataset
+```{r}
+HR_data=read.csv("HR_comma_sep.csv")
+```
+
+#understanding the data
+```{r}
+head(HR_data)
+tail(HR_data)
+```
+
+
+
+#checking stucture and summary of data
+```{r}
+str(HR_data)
+
+```
+
+```{r}
+summary(HR_data)
+
+```
+
+#checking for missing values
+```{r}
+sum(is.na(HR_data))
+#no missing values
+```
+```{r}
+colSums(is.na(HR_data))
+```
+
+#checking for dimensions
+```{r}
+dim(HR_data)
+
+```
+
+#checking for unquie values
+```{r}
+length(unique(HR_data$satisfaction_level))
+#92
+length(unique(HR_data$last_evaluation))
+#65
+length(unique(HR_data$number_project))
+#6
+length(unique(HR_data$average_montly_hours))
+#215
+length(unique(HR_data$time_spend_company))
+#8
+length(unique(HR_data$Work_accident))
+#2
+length(unique(HR_data$left))
+#2
+length(unique(HR_data$promotion_last_5years))
+#2
+length(unique(HR_data$sales))
+#10
+length(unique(HR_data$salary))
+#3
+```
+
+#Descriptive Statistics
+```{r}
+library(pastecs)
+stat.desc(HR_data)
+```
+
+
+
+```{r}
+levels(HR_data$salary)
+levels(HR_data$sales)
+```
+
+
+#changing factors into numerical
+```{r}
+HR_data$sales=as.numeric(as.numeric(HR_data$sales))
+HR_data$salary=as.numeric(as.numeric(HR_data$salary))
+```
+
+#corrplot
+```{r}
+library(corrplot)
+corrplot(cor(HR_data[,1:8]), method="number")
+```
+#correlation test
+```{r}
+cor.test(x=HR_data$satisfaction_level,y=HR_data$left)
+```
+
+```{r}
+cor.test(x=HR_data$last_evaluation,y=HR_data$left)
+```
+
+```{r}
+cor.test(x=HR_data$number_project,y=HR_data$left)
+```
+
+```{r}
+cor.test(x=HR_data$average_montly_hours,y=HR_data$left)
+```
+
+```{r}
+cor.test(x=HR_data$time_spend_company,y=HR_data$left)
+```
+
+```{r}
+cor.test(x=HR_data$Work_accident,y=HR_data$left)
+```
+
+```{r}
+cor.test(x=HR_data$promotion_last_5years,y=HR_data$left)
+```
+
+```{r}
+cor.test(x=HR_data$sales,y=HR_data$left)
+```
+
+```{r}
+cor.test(x=HR_data$salary,y=HR_data$left)
+```
+
+#data preprocessing
+```{r}
+set.seed(222)
+trainIndex <- createDataPartition(HR_data$left, p = 0.7, list = FALSE, times = 1)
+trainData <- HR_data[trainIndex,]
+testData  <- HR_data[-trainIndex,]
+
+
+```
+
